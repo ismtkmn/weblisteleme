@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Öğrenci Veri Girişi</title>
+<style>
+    #student-form {
+        float: left;
+        margin-right: 20px;
+    }
+
+    #student-table {
+        float: right;
+        margin-left: 20px;
+    }
+
+    #student-list {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    #student-list th, #student-list td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    #student-list th {
+        background-color: #f2f2f2;
+    }
+
+    #search-input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+    #add-student-form label {
+        display: inline-block;
+        width: 120px;
+        font-weight: bold;
+    }
+
+    #add-student-form input[type="text"], #add-student-form input[type="date"] {
+        width: 200px;
+        padding: 5px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+    #add-student-form button[type="submit"] {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #add-student-form button[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    #student-list tbody td[colspan="5"] {
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+
+<div id="student-form">
+    <h2>Öğrenci Veri Girişi</h2>
+    <form id="add-student-form">
+        <label for="student-name">Öğrenci Adı:</label>
+        <input type="text" id="student-name" name="studentName" required><br><br>
+        
+        <label for="student-surname">Öğrenci Soyadı:</label>
+        <input type="text" id="student-surname" name="studentSurname" required><br><br>
+        
+        <label for="student-number">Numarası:</label>
+        <input type="text" id="student-number" name="studentNumber" required><br><br>
+        
+        <label for="student-department">Bölümü:</label>
+        <input type="text" id="student-department" name="studentDepartment" required><br><br>
+        
+        <label for="student-dob">Doğum Tarihi:</label>
+        <input type="date" id="student-dob" name="studentDOB" required><br><br>
+        
+        <button type="submit">Kaydet</button>
+    </form>
+</div>
+
+<div id="student-table">
+    <h2>Öğrenci Listesi</h2>
+    <input type="text" id="search-input" placeholder="Öğrenci ara...">
+    <table id="student-list">
+        <thead>
+            <tr>
+                <th>Öğrenci Adı</th>
+                <th>Öğrenci Soyadı</th>
+                <th>Numarası</th>
+                <th>Bölümü</th>
+                <th>Doğum Tarihi</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#add-student-form").submit(function(event) {
+            event.preventDefault();
+            var studentName = $("#student-name").val();
+            var studentSurname = $("#student-surname").val();
+            var studentNumber = $("#student-number").val();
+            var studentDepartment = $("#student-department").val();
+            var studentDOB = $("#student-dob").val();
+            
+            var newRow = "<tr><td>" + studentName + "</td><td>" + studentSurname + "</td><td>" + studentNumber + "</td><td>" + studentDepartment + "</td><td>" + studentDOB + "</td></tr>";
+            $("#student-list tbody").append(newRow);
+        });
+
+        $("#search-input").keyup(function() {
+            var searchText = $(this).val().toLowerCase();
+            $("#student-list tbody tr").hide().filter(function() {
+                return $(this).text().toLowerCase().indexOf(searchText) !== -1;
+            }).show();
+
+            if ($("#student-list tbody tr:visible").length === 0) {
+                $("#student-list tbody").html("<tr><td colspan='5'>Aradığınız kriterlerde kayıt bulunamamıştır.</td></tr>");
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
